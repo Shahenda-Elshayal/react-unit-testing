@@ -29,8 +29,19 @@ describe("Test Pets component", () => {
     render(<Pets />);
     let catCards = await screen.findAllByRole("article");
     // userEvent.selectOptions(screen.getByLabelText(/Gender/i),'male')
-    fireEvent.change(screen.getByLabelText(/Gender/i),{ target: { value: 'male' } });
+    fireEvent.change(screen.getByLabelText(/Gender/i), { target: { value: 'male' } });
     expect(screen.getAllByRole('article').length).toBe(2)
-    expect(screen.getAllByRole('article')).toStrictEqual([catCards[1],catCards[3]])
+    expect(screen.getAllByRole('article')).toStrictEqual([catCards[1], catCards[3]])
   });
+
+  test("Test render after Favourite Filter", async () => {
+    render(<Pets />);
+    await screen.findAllByRole("article");
+    fireEvent.change(screen.getByLabelText(/Favourite/i), {
+      target: { value: "favoured" },
+    });
+    const favCats = screen.getAllByRole("article");
+    expect(favCats.length).toBe(3);
+  });
+
 });
